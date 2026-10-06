@@ -1,0 +1,37 @@
+{
+  "n_notes": 200,
+  "fields": {
+    "age": {
+      "accuracy": 1.0
+    },
+    "sex": {
+      "accuracy": 1.0
+    },
+    "diagnosis": {
+      "accuracy": 1.0
+    },
+    "requested_procedure": {
+      "accuracy": 1.0
+    },
+    "conservative_therapy_weeks": {
+      "accuracy": 0.985
+    },
+    "red_flag": {
+      "accuracy": 1.0
+    },
+    "medications": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "allergies": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "note_exact_match": 0.985,
+  "decision_agreement": 1.0,
+  "model": "claude-haiku-4-5-20251001",
+  "invalid_outputs": 0
+}
