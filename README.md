@@ -5,7 +5,7 @@ A small, testable pipeline that turns **synthetic** clinical notes into structur
 It compares two extractors on the same labelled data:
 
 - a **rules baseline** (regexes and a small lexicon), runs offline;
-- an **LLM extractor** (Anthropic API) with input redaction, strict JSON validation and one retry.
+- an **LLM extractor** with input redaction, strict JSON validation and one retry, available in two flavours: Claude through the Anthropic API, or any OpenAI-compatible server such as a **local open-source model served by Ollama**.
 
 I built it to practise the loop that matters for LLM agents on documents: extract, measure, look at the errors, improve.
 
@@ -32,14 +32,20 @@ note text -> redact PHI -> extractor (rules | LLM) -> validate -> Extraction
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                              # 121 tests, no network, no API key
+python -m pytest -q                              # 126 tests, no network, no API key
 python -m cne.cli generate --n 200 --seed 7      # regenerate data/notes.jsonl
 python -m cne.cli eval --extractor baseline      # offline
+
+# LLM extractor, option A: Claude through the Anthropic API
 export ANTHROPIC_API_KEY=...                     # your own key
 python -m cne.cli eval --extractor llm --limit 50
+
+# LLM extractor, option B: a local open-source model with Ollama (free, offline)
+ollama pull qwen2.5:7b
+python -m cne.cli eval --extractor openai-compat --model qwen2.5:7b --limit 50
 ```
 
-Results land in `results/<extractor>.json`, and every field-level mistake is written to `results/<extractor>_errors.jsonl` for error analysis. The model defaults to `claude-haiku-4-5-20251001`; override it with `CNE_MODEL`.
+Results land in `results/<extractor>.json`, and every field-level mistake is written to `results/<extractor>_errors.jsonl` for error analysis. Option A defaults to `claude-haiku-4-5-20251001` (override with `CNE_MODEL`). Option B talks to `http://localhost:11434/v1` by default; pass `--base-url` (and `CNE_API_KEY` if needed) for another OpenAI-compatible provider. Each run writes its own file, for example `results/compat-qwen2.5_7b.json`.
 
 ## Results (200 synthetic notes, seed 7)
 
@@ -53,7 +59,7 @@ Results land in `results/<extractor>.json`, and every field-level mistake is wri
 | note exact match | 0.580 | not run yet |
 | policy decision agreement | 0.865 | not run yet |
 
-The LLM column stays empty until I run it with my own API key; I will not fill it with estimates.
+The LLM column stays empty until I run an LLM extractor myself; I will not fill it with estimates. The LLM code paths are covered by tests with fake clients (no network), and the HTTP path was also checked against a local stub server, but no real model has been scored yet.
 
 ## What the baseline gets wrong (from `results/baseline_errors.jsonl`)
 
@@ -70,7 +76,7 @@ These are the cases a language model should handle. They are also where an LLM c
 - **Never deny automatically.** The policy only approves or pends for clinician review. Missing information pends instead of guessing.
 - **Redact before sending.** Text is scrubbed before it reaches any client; a test asserts that identifiers never reach the API client.
 - **Validate model output.** Malformed JSON, wrong types or unknown values raise, trigger one retry, then return an empty extraction and count as an invalid output.
-- **Injectable client.** The LLM path is tested with a fake client, so the suite needs no network or key.
+- **Injectable client.** Both LLM paths are tested with fakes, so the suite needs no network or key. Network and API errors propagate instead of being scored as wrong answers.
 - **Closed-set labels.** Diagnoses and procedures are normalised to a fixed list, which makes accuracy measurable.
 
 ## Limitations

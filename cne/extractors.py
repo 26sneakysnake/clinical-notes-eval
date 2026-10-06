@@ -4,7 +4,8 @@ from __future__ import annotations
 import json
 import os
 import re
-from typing import Protocol
+import urllib.request
+from typing import Callable, Protocol
 
 from .redact import redact
 from .schema import DIAGNOSES, PROCEDURES, Extraction, Medication, normalize_dose
@@ -74,7 +75,7 @@ class BaselineExtractor:
 
 
 # --------------------------------------------------------------------------- #
-# LLM extractor: redact -> prompt -> parse -> validate -> retry once.
+# Model-backed extractors: redact -> prompt -> parse -> validate -> retry once.
 # --------------------------------------------------------------------------- #
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 
@@ -101,14 +102,43 @@ def parse_json(raw: str) -> dict:
     return json.loads(raw[start : end + 1])
 
 
-class LLMExtractor:
-    name = "llm"
+class _ModelExtractor:
+    """Shared logic: redact, call the model, validate, retry once on bad output.
 
-    def __init__(self, client=None, model: str | None = None, redact_input: bool = True, max_retries: int = 1):
-        self.model = model or os.environ.get("CNE_MODEL", DEFAULT_MODEL)
+    Network or API errors are NOT swallowed: they propagate so a broken run is
+    never mistaken for a low score.
+    """
+
+    name = "model"
+
+    def __init__(self, redact_input: bool = True, max_retries: int = 1):
         self.redact_input = redact_input
         self.max_retries = max_retries
         self.failures = 0
+
+    def _complete(self, text: str) -> str:
+        raise NotImplementedError
+
+    def extract(self, note: str) -> Extraction:
+        text = redact(note) if self.redact_input else note
+        for _ in range(self.max_retries + 1):
+            raw = self._complete(text)
+            try:
+                return Extraction.from_dict(parse_json(raw))
+            except (ValueError, json.JSONDecodeError):
+                continue
+        self.failures += 1
+        return Extraction()
+
+
+class LLMExtractor(_ModelExtractor):
+    """Claude through the Anthropic API."""
+
+    name = "llm"
+
+    def __init__(self, client=None, model: str | None = None, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model or os.environ.get("CNE_MODEL", DEFAULT_MODEL)
         self._client = client
 
     @property
@@ -119,19 +149,59 @@ class LLMExtractor:
             self._client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY
         return self._client
 
-    def extract(self, note: str) -> Extraction:
-        text = redact(note) if self.redact_input else note
-        for _ in range(self.max_retries + 1):
-            resp = self.client.messages.create(
-                model=self.model,
-                max_tokens=600,
-                system=SYSTEM_PROMPT,
-                messages=[{"role": "user", "content": text}],
-            )
-            raw = "".join(b.text for b in resp.content if getattr(b, "type", "text") == "text")
-            try:
-                return Extraction.from_dict(parse_json(raw))
-            except (ValueError, json.JSONDecodeError):
-                continue
-        self.failures += 1
-        return Extraction()
+    def _complete(self, text: str) -> str:
+        resp = self.client.messages.create(
+            model=self.model,
+            max_tokens=600,
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": text}],
+        )
+        return "".join(b.text for b in resp.content if getattr(b, "type", "text") == "text")
+
+
+def _http_post(url: str, headers: dict, payload: dict, timeout: int = 180) -> dict:
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+class OpenAICompatExtractor(_ModelExtractor):
+    """Any server that speaks the OpenAI chat-completions format.
+
+    Works with a local open-source model served by Ollama
+    (base_url=http://localhost:11434/v1, no key) or with a hosted provider that
+    exposes the same API. Standard library only.
+    """
+
+    def __init__(
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434/v1",
+        api_key: str | None = None,
+        post: Callable[[str, dict, dict], dict] | None = None,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.model = model
+        self.base_url = base_url.rstrip("/")
+        self.api_key = api_key
+        self._post = post or _http_post
+        self.name = "compat-" + re.sub(r"[^A-Za-z0-9._-]+", "_", model)
+
+    def _complete(self, text: str) -> str:
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+        payload = {
+            "model": self.model,
+            "temperature": 0,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": text},
+            ],
+        }
+        data = self._post(f"{self.base_url}/chat/completions", headers, payload)
+        try:
+            return data["choices"][0]["message"]["content"] or ""
+        except (KeyError, IndexError, TypeError):
+            raise RuntimeError(f"unexpected response from {self.base_url}: {str(data)[:200]}")

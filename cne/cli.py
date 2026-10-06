@@ -3,6 +3,7 @@
     python -m cne.cli generate --n 200 --seed 7
     python -m cne.cli eval --extractor baseline
     python -m cne.cli eval --extractor llm --limit 50
+    python -m cne.cli eval --extractor openai-compat --model qwen2.5:7b --limit 50
 """
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ import os
 import sys
 from pathlib import Path
 
-from .extractors import BaselineExtractor, LLMExtractor
+from .extractors import BaselineExtractor, LLMExtractor, OpenAICompatExtractor
 from .metrics import field_errors, score
 from .schema import Extraction, Medication
 from .synthetic import generate, read_jsonl, write_jsonl
@@ -37,7 +38,17 @@ def cmd_eval(args: argparse.Namespace) -> int:
     if args.extractor == "llm" and not os.environ.get("ANTHROPIC_API_KEY"):
         print("ANTHROPIC_API_KEY is not set; the llm extractor needs it.", file=sys.stderr)
         return 2
-    extractor = BaselineExtractor() if args.extractor == "baseline" else LLMExtractor()
+    if args.extractor == "openai-compat" and not args.model:
+        print("--model is required for the openai-compat extractor (for example qwen2.5:7b).", file=sys.stderr)
+        return 2
+    if args.extractor == "baseline":
+        extractor = BaselineExtractor()
+    elif args.extractor == "llm":
+        extractor = LLMExtractor()
+    else:
+        extractor = OpenAICompatExtractor(
+            model=args.model, base_url=args.base_url, api_key=os.environ.get("CNE_API_KEY")
+        )
 
     records = read_jsonl(DATA)
     if args.limit:
@@ -46,7 +57,7 @@ def cmd_eval(args: argparse.Namespace) -> int:
     preds = [extractor.extract(r["text"]) for r in records]
 
     result = score(preds, golds)
-    if isinstance(extractor, LLMExtractor):
+    if hasattr(extractor, "model"):
         result["model"] = extractor.model
         result["invalid_outputs"] = extractor.failures
 
@@ -71,7 +82,9 @@ def main(argv: list[str] | None = None) -> int:
     g.set_defaults(func=cmd_generate)
 
     e = sub.add_parser("eval", help="evaluate an extractor on data/notes.jsonl")
-    e.add_argument("--extractor", choices=["baseline", "llm"], default="baseline")
+    e.add_argument("--extractor", choices=["baseline", "llm", "openai-compat"], default="baseline")
+    e.add_argument("--model", help="model name for openai-compat, for example qwen2.5:7b")
+    e.add_argument("--base-url", default="http://localhost:11434/v1", help="OpenAI-compatible endpoint (default: local Ollama)")
     e.add_argument("--limit", type=int, default=0)
     e.set_defaults(func=cmd_eval)
 
