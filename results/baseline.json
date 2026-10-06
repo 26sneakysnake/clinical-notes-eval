@@ -1,0 +1,35 @@
+{
+  "n_notes": 200,
+  "fields": {
+    "age": {
+      "accuracy": 1.0
+    },
+    "sex": {
+      "accuracy": 1.0
+    },
+    "diagnosis": {
+      "accuracy": 0.705
+    },
+    "requested_procedure": {
+      "accuracy": 0.92
+    },
+    "conservative_therapy_weeks": {
+      "accuracy": 0.85
+    },
+    "red_flag": {
+      "accuracy": 1.0
+    },
+    "medications": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "allergies": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "note_exact_match": 0.58,
+  "decision_agreement": 0.865
+}

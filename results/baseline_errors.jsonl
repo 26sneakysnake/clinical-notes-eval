@@ -1,0 +1,105 @@
+{"id": "note-0001", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0003", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0005", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0005", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0007", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0008", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0008", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0009", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0009", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0012", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0014", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0016", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0018", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0018", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0018", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0020", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0023", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0025", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0026", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0032", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0033", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0036", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0039", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0043", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0044", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0045", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0047", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0049", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0051", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0054", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0055", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0056", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0058", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0059", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0059", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0060", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0060", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0062", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0066", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0067", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0067", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0068", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0069", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0077", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0079", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0079", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0082", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0082", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0089", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0090", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0092", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0095", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0095", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0095", "field": "conservative_therapy_weeks", "gold": 12, "pred": null}
+{"id": "note-0098", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0100", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0101", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0105", "field": "conservative_therapy_weeks", "gold": 12, "pred": null}
+{"id": "note-0108", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0108", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0108", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0109", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0109", "field": "conservative_therapy_weeks", "gold": 12, "pred": null}
+{"id": "note-0113", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0113", "field": "conservative_therapy_weeks", "gold": 12, "pred": null}
+{"id": "note-0115", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0116", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0117", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0117", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0119", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0121", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0122", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0123", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0124", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0128", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0133", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0136", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0138", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0140", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0143", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0146", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0150", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0150", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0152", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0153", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0153", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0154", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0159", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0163", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0163", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0166", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
+{"id": "note-0169", "field": "conservative_therapy_weeks", "gold": 16, "pred": null}
+{"id": "note-0170", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0178", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0182", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0186", "field": "conservative_therapy_weeks", "gold": 4, "pred": null}
+{"id": "note-0190", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0192", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0193", "field": "diagnosis", "gold": "knee osteoarthritis", "pred": null}
+{"id": "note-0194", "field": "diagnosis", "gold": "lumbar radiculopathy", "pred": null}
+{"id": "note-0194", "field": "requested_procedure", "gold": "mri lumbar spine", "pred": null}
+{"id": "note-0195", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0196", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0197", "field": "diagnosis", "gold": "chronic low back pain", "pred": null}
+{"id": "note-0198", "field": "conservative_therapy_weeks", "gold": 8, "pred": null}
